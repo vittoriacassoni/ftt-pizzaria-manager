@@ -32,7 +32,6 @@ export async function createTableProduto() {
 
 
 
-
 export function obtemProduto() {
 
     return new Promise((resolve, reject) => {
@@ -150,3 +149,87 @@ export function excluiTodosProdutos() {
     }
     );
 }
+
+
+// VENDAS ----------------------------------------
+
+
+export async function createTableVenda() {
+    return new Promise((resolve, reject) => {
+        const query = `CREATE TABLE IF NOT EXISTS tbVenda
+        (
+            codigo text not null primary key,
+            produtos text not null,
+            data text not null          
+        )`;
+
+        let dbCx = getDbConnection();
+        dbCx.transaction(tx => {
+            tx.executeSql(
+                query, [],
+                (tx, resultado) => resolve(true)
+            )
+        },
+            error => {
+                console.log(error);
+                resolve(false);
+            }
+        );
+    });
+};
+
+
+export function obtemVendas() {
+
+    return new Promise((resolve, reject) => {
+
+        let dbCx = getDbConnection();
+        dbCx.transaction(tx => {
+            let query = 'select * from tbVenda';
+            tx.executeSql(query, [],
+                (tx, registros) => {
+
+                    var retorno = []
+
+                    for (let n = 0; n < registros.rows.length; n++) {
+                        let obj = {
+                            codigo: registros.rows.item(n).codigo,
+                            descricao: registros.rows.item(n).descricao,
+                            valor: registros.rows.item(n).valor,
+                        }
+                        retorno.push(obj);
+                    }
+                    resolve(retorno);
+                })
+        },
+            error => {
+                console.log(error);
+                resolve([]);
+            }
+        )
+    }
+    );
+}
+
+
+export function adicionaVenda(venda) {
+
+    return new Promise((resolve, reject) => {
+        let query = 'insert into tbVenda (codigo, produtos, data) values (?,?,?)';
+        let dbCx = getDbConnection();
+
+        dbCx.transaction(tx => {
+            tx.executeSql(query, [venda.codigo, venda.produtos, venda.data],
+                (tx, resultado) => {
+                    resolve(resultado.rowsAffected > 0);
+                })
+        },
+            error => {
+                console.log(error);
+                resolve(false);
+            }
+        )
+    }
+    );
+}
+
