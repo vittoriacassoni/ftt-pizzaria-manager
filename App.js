@@ -48,7 +48,7 @@ import SalePage from "./pages/Sale";
 export default function App() {
   return (
     
-      <SalePage />
+      <ProductPage />
 
   );
 }

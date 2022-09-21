@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, View, TouchableOpacity, Keyboard } from 'react-native';
 
 import {
   createTableProduto,
@@ -14,9 +14,9 @@ import styles from './styles';
 
 export default function Produto() {
 
-  const [id, setId] = useState();
-  const [descricao, setDescricao] = useState();
-  const [valor, setValor] = useState();
+  const [id, setId] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [valor, setValor] = useState('');
   const [produtos, setProdutos] = useState([]);
   let tabelasCriadas = false;
 
@@ -38,43 +38,49 @@ export default function Produto() {
     }, []);
 
 
-  function createUniqueId() {
-    return Date.now().toString(36) + Math.random().toString(36).slice(0, 2);
-  }
-
   async function salvaDados() {
-    let novoRegistro = id == undefined;
 
-    let obj = {
-      id: novoRegistro? createUniqueId() : id,
-      descricao: descricao,
-      valor: valor,
-    };
-
+    if (!validaCampos())
+      return;
     try {
+      let obj = {
+        id,
+        descricao,
+        valor,
+      };
 
-      if (novoRegistro) {
-        let resposta = (await adicionaProduto(obj));
+      let resposta = (await adicionaProduto(obj));
 
-        if (resposta)
-          Alert.alert('adicionado com sucesso!');
-        else
-          Alert.alert('Falhou miseravelmente!');
-      }
-      else {      
-        let resposta = await alteraProduto(obj);
-        if (resposta)
-          Alert.alert('Alterado com sucesso!');
-        else
-          Alert.alert('Falhou miseravelmente!');
-      }
-      
-      Keyboard.dismiss();
-      limparCampos();
-      await carregaDados();
-    } catch (e) {
+      if (resposta)
+        Alert.alert('Adicionado com sucesso!');
+      else
+        Alert.alert('Falhou!');
+    }      
+    catch (e) {
       Alert.alert(e);
     }
+    Keyboard.dismiss();
+  }
+
+  function validaCampos() {
+
+    if (id.length == 0  || id <=0 )
+    {
+      Alert.alert('Código deve ser maior que zero.');
+      return false;
+    }
+
+    if (descricao.length == 0) {
+      Alert.alert('Informe a descrição.');
+      return false;
+    }
+
+    if (valor.length == 0) {
+      Alert.alert('Informe um valor.');
+      return false;
+    }
+
+    return true;
   }
 
   function carregaDados() {
@@ -121,7 +127,7 @@ export default function Produto() {
   }
 
   function apagarTudo() {
-    if (Alert.alert('Muita atenção!!!', 'Confirma a exclusão de todos os contatos?',
+    if (Alert.alert('Confirma a exclusão de todos os produtos?',
       [
         {
           text: 'Sim, confirmo!',
@@ -130,7 +136,7 @@ export default function Produto() {
           }
         },
         {
-          text: 'Não!!!',
+          text: 'Não!',
           style: 'cancel'
         }
       ]));
@@ -142,14 +148,14 @@ export default function Produto() {
       Keyboard.dismiss();
       limparCampos();
       await carregaDados();
-      Alert.alert('Contato apagado com sucesso!!!');
+      Alert.alert('Produto apagado com sucesso!');
     } catch (e) {
       Alert.alert(e);
     }
   }
 
   function removerElemento(identificador) {
-    Alert.alert('Atenção', 'Confirma a remoção do contato?',
+    Alert.alert('Atenção', 'Confirma a remoção do produto?',
       [
         {
           text: 'Sim',

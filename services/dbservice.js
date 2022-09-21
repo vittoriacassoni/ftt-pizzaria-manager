@@ -71,7 +71,7 @@ export function adicionaProduto(produto) {
         let dbCx = getDbConnection();
 
         dbCx.transaction(tx => {
-            tx.executeSql(query, [produto.codigo, produto.nome, produto.valor],
+            tx.executeSql(query, [produto.id, produto.descricao, produto.valor],
                 (tx, resultado) => {
                     resolve(resultado.rowsAffected > 0);
                 })
