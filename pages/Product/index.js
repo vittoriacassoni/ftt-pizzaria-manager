@@ -1,18 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 
 import {
-  createTable,
+  createTableProduto,
   obtemProduto,
   adicionaProduto,
   alteraProduto,
   excluiProduto,
   excluiTodosProdutos,
-} from './services/dbservice';
+} from '../../services/dbservice';
 import styles from './styles';
 
-export default function App() {
+export default function Produto() {
 
   const [id, setId] = useState();
   const [descricao, setDescricao] = useState();
@@ -24,7 +24,7 @@ export default function App() {
     if (!tabelasCriadas) {
       console.log("Verificando necessidade de criar tabelas...");
       tabelasCriadas = true;
-      await createTable();
+      await createTableProduto();
     }
 
     console.log("UseEffect...");
@@ -83,6 +83,7 @@ export default function App() {
 
         let produtos = resposta;
         setProdutos(produtos);
+        console.log(produtos);
       })
 
     } catch (e) {
@@ -103,9 +104,9 @@ export default function App() {
   }
 
   async function limparCampos() {
-    setDescricao("");
-    setValor("");
-    setId(undefined);
+    setDescricao('');
+    setValor('');
+    setId('');
     Keyboard.dismiss();
   }
 
@@ -165,21 +166,41 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>PRODUTOS</Text>
-      <Text /><Text />
 
       <View>
-        <Text>Descrição</Text>
-        <TextInput style={styles.caixaTexto}
+        <Text style={styles.labelCampo}>Código</Text>
+        <TextInput style={styles.campoEdicao}
+          onChangeText={(texto) => setId(texto)}
+          value={id} />
+      </View>
+
+      <View>
+        <Text style={styles.labelCampo}>Descrição</Text>
+        <TextInput style={styles.campoEdicao}
           onChangeText={(texto) => setDescricao(texto)}
           value={descricao} />
       </View>
 
       <View style={styles.areaTelefone}>
-          <Text>Preço unitário</Text>
-          <TextInput style={styles.caixaTexto}
+          <Text style={styles.labelCampo}> Preço unitário</Text>
+          <TextInput style={styles.campoEdicao}
             onChangeText={(texto) => setValor(texto)}
             value={valor}
             keyboardType='numeric' />
+        </View>
+
+        <View style={styles.areaBotao}>
+          <TouchableOpacity style={[styles.botao, styles.sombra]}
+            onPress={() => salvaDados()}
+          >
+            <Text style={styles.textoBotao}>Salvar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.botao, styles.sombra]}
+            onPress={() => limparCampos()}>
+            <Text style={styles.textoBotao}>Limpar</Text>
+          </TouchableOpacity>
+
         </View>
 
       <StatusBar style="auto" />

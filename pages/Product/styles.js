@@ -6,103 +6,50 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 50,
     },
     titulo: {
         fontSize: 25,
         color: '#FFF',
         backgroundColor: '#6b8e23',
-        width: '100%',
-        textAlign: 'center'
+        width: 300,
+        textAlign: 'center',
+        alignItems: 'flex-start'
     },
-
-    caixaTexto: {
-        borderColor: "#000",
-        borderWidth: 2,
-        height: 50,
-        width: '100%',
+    labelCampo: {
+        color: '#000',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 5,
+    },
+    campoEdicao: {
+        borderBottomColor: '#004D00',
+        borderBottomWidth: 2,
+        width: 200,
+        height: 40,
+        fontSize: 17,
+        fontWeight: 'bold',
         paddingHorizontal: 10,
-        borderRadius: 10,
+    },
+    areaBotao: {
+        width: '90%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 30,
     },
     botao: {
         width: '30%',
-        height: 50,
-        borderColor: "#000",
-        borderWidth: 2,
-        borderRadius: 30,
+        height: 60,
+        backgroundColor: '#004D00',
+        borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#040d59',
     },
-    botaoApagarTudo: {
-        backgroundColor: 'red',
-    },
-    areaDados: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-    },
-    areaBotoes: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        marginTop: 30,
-    },
-    textoBotao: {
+    textoBotao:{
         color: '#FFF',
-    },
-    areaNome: {
-        width: '55%',
-    },
-    areaTelefone: {
-        width: '30%',
-    },
-
-    listaContatos: {
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#FFF',
-        marginTop: 20,
-    },
-    contato: {
-        backgroundColor: '#ed8f1c',
-        flexDirection: 'row',
-        height: 80,
-        alignItems: 'center',
-        margin: 10,
-        borderRadius: 5,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-    },
-    listaNome: {
-        width: '50%',
         fontSize: 18,
-        paddingRight: 10,
+        fontWeight: 'bold',
     },
-
-    dadosListaTelefone: {
-        width: '40%',
-        flexDirection: 'row',
-    },
-    dadosBotoesAcao: {
-        width: '10%',
-    },
-    iconTelefone: {
-        width: 20,
-        height: 25,
-        marginRight: 5,
-    },
-    listaTelefone: {
-        color: "#FFF",
-        fontSize: 18,
-    },
-
 
 });
 

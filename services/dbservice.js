@@ -6,7 +6,7 @@ export function getDbConnection() {
     return cx;
 }
 
-export async function createTable() {
+export async function createTableProduto() {
     return new Promise((resolve, reject) => {
         const query = `CREATE TABLE IF NOT EXISTS tbProdutos
         (
